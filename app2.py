@@ -310,7 +310,7 @@ if st.session_state.page == 'dashboard':
         fig_map.update_traces(textposition='top center', marker=dict(size=13, line=dict(width=1, color='white')))
         sel = plot_df[plot_df['team'] == selected_team]
         fig_map.add_trace(go.Scatter(x=sel['PC1'], y=sel['PC2'], mode='markers', marker=dict(size=26, symbol='circle-open', line=dict(width=3, color='black')), name=f"Selected: {selected_team}"))
-        fig_map.update_layout(legend=dict(orientation="h", y=-0.15), xaxis_title="PC1: Possession ⬅️ vs ➡️ Direct Play", yaxis_title="PC2: Defensive/Crossing ⬇️ vs ⬆️️ High Pressing")
+        fig_map.update_layout(legend=dict(orientation="h", y=-0.15), xaxis_title="PC1: Direct Play ⬅️ vs ➡️ Possession",yaxis_title="PC2: High Pressing ⬅️ vs ➡️ Defensive/Crossing")
         st.plotly_chart(fig_map, use_container_width=True)
 
     st.divider()
