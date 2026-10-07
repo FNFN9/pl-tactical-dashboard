@@ -197,13 +197,13 @@ def radar(traces, height=400):
 with st.sidebar:
     if st.session_state.page == 'dashboard':
         # 1. เอาเมนูเลือกทีมขึ้นมาก่อน
-        st.header("🔍 Select Team")
+        st.header(" Select Team")
         teams = sorted(df_scores['Team'])
         selected_team = st.selectbox("Choose a team", teams)
         st.divider()
         
         # 2. ตามด้วย Legend
-        st.markdown("### 🎨 Cluster Legend")
+        st.markdown("###  Cluster Legend")
         for k, v in cluster_info.items():
             st.markdown(f"<span style='color:{CLUSTER_COLORS[k][0]};font-size:1.2rem'>●</span> **C{k}** {v['name']}", unsafe_allow_html=True)
         st.divider()
@@ -230,7 +230,7 @@ if st.session_state.page == 'dashboard':
     # ------------------- DASHBOARD PAGE -------------------
     st.markdown("""
     <div class="hero">
-      <h1>⚽ Football Team Tactical Style Clustering</h1>
+      <h1> Football Team Tactical Style Clustering</h1>
       <p><b>Unsupervised Machine Learning (K-Means)</b> · วิเคราะห์และจัดกลุ่มสไตล์การเล่นของทีมพรีเมียร์ลีก ฤดูกาล 2015/16</p>
     </div>
     """, unsafe_allow_html=True)
@@ -251,7 +251,7 @@ if st.session_state.page == 'dashboard':
     </div>
     """, unsafe_allow_html=True)
 
-    tab1, tab2, tab3 = st.tabs(["📋 Team Profile", "⚔️ Compare Teams", "🗺️ Cluster Map"])
+    tab1, tab2, tab3 = st.tabs([" Team Profile", " Compare Teams", " Cluster Map"])
 
     with tab1:
         m1, m2, m3, m4 = st.columns(4)
@@ -265,21 +265,21 @@ if st.session_state.page == 'dashboard':
         left, right = st.columns([1.1, 1])
         with left:
             axis_help = "\n\n".join(f"**{k}**: {v}" for k, v in AXIS_HELP.items())
-            st.markdown("#### 📊 Tactical Score", help=axis_help)
+            st.markdown("####  Tactical Score", help=axis_help)
             st.caption("Higher score = stronger presence of that tactical characteristic.")
             vals = [team_score[c] for c in CATS]
             st.plotly_chart(radar([(selected_team, vals, c1, True), (f"Cluster {c_id} Avg", cluster_score_avg.loc[c_id].tolist(), "#888888", False)]), use_container_width=True)
         with right:
-            st.markdown("#### 📶 Score Breakdown")
+            st.markdown("####  Score Breakdown")
             for cat, v in zip(CATS, vals):
                 st.markdown(f"**{cat}** — {int(v)}")
                 st.progress(int(v))
 
-        st.markdown(f"#### 📌 Cluster {c_id} Characteristics")
+        st.markdown(f"####  Cluster {c_id} Characteristics")
         for d in c_info['desc']:
             st.markdown(f"<div class='desc-card' style='--c:{c1}'>{d}</div>", unsafe_allow_html=True)
 
-        st.markdown(f"#### 🔎 Why is {selected_team} in Cluster {c_id}?")
+        st.markdown(f"####  Why is {selected_team} in Cluster {c_id}?")
         rows = [{"Feature": pretty, selected_team: round(team_raw[raw], 2), f"Cluster {c_id} Avg": round(cluster_avg.loc[c_id, raw], 2), "Diff": round(team_raw[raw] - cluster_avg.loc[c_id, raw], 2)} for raw, pretty in feature_names.items()]
         comp = pd.DataFrame(rows).set_index("Feature")
         lim = max(comp["Diff"].abs().max(), 1e-9)
@@ -287,7 +287,7 @@ if st.session_state.page == 'dashboard':
         st.dataframe(styled, use_container_width=True)
 
     with tab2:
-        st.markdown("#### ⚔️ Head-to-Head")
+        st.markdown("####  Head-to-Head")
         ca, cb = st.columns(2)
         t_a = ca.selectbox("Team A", teams, index=teams.index(selected_team), key="ta")
         t_b = cb.selectbox("Team B", teams, index=1 if teams[0] == t_a else 0, key="tb")
@@ -301,7 +301,7 @@ if st.session_state.page == 'dashboard':
         st.dataframe(h2h, use_container_width=True)
 
     with tab3:
-        st.markdown("#### 🗺️ Cluster Map (PCA 2D)")
+        st.markdown("####  Cluster Map (PCA 2D)")
         st.caption("ลดมิติฟีเจอร์ทั้งหมดเหลือ 2 แกนเพื่อดูการกระจายตัวของทีม")
         plot_df = df.copy()
         plot_df['Cluster Name'] = plot_df['Cluster'].map(lambda k: f"C{k}: {cluster_info[k]['name']}")
@@ -320,24 +320,24 @@ else:
     # ------------------- DICTIONARY PAGE -------------------
     st.markdown("""
     <div class="hero" style="background: linear-gradient(135deg, #1e3c72, #2a5298);">
-      <h1>📖 Data Dictionary & Definitions</h1>
+      <h1> Data Dictionary & Definitions</h1>
       <p>พจนานุกรมข้อมูล: คำอธิบายสไตล์การเล่นและตัวชี้วัดที่ใช้ในโมเดล K-Means</p>
     </div>
     """, unsafe_allow_html=True)
     
-    st.header("🧭 Tactical Dimensions (4 แกน Radar Chart)")
+    st.header(" Tactical Dimensions (4 แกน Radar Chart)")
     st.markdown("คะแนนทั้ง 4 ด้าน ถูกคำนวณผ่านระบบ **Fixed Bounds (0-100%)** เพื่อสะท้อนสไตล์การเล่นให้เข้าใจง่าย")
     for term, meaning in AXIS_HELP.items():
         st.markdown(f"""
         <div class="dict-box">
-            <h4 style="margin-top:0; color:#1e3c72;">🎯 {term}</h4>
+            <h4 style="margin-top:0; color:#1e3c72;"> {term}</h4>
             <span style="font-size:1.05rem;">{meaning}</span>
         </div>
         """, unsafe_allow_html=True)
 
     st.divider()
 
-    st.header("📊 Data Features (ฟีเจอร์ข้อมูลที่ใช้จัดกลุ่ม)")
+    st.header(" Data Features (ฟีเจอร์ข้อมูลที่ใช้จัดกลุ่ม)")
     st.markdown("สถิติที่ใช้ในการ Train โมเดล K-Means ทั้งหมด 8 ตัวแปร")
     
     col1, col2 = st.columns(2)
