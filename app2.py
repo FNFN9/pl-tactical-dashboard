@@ -251,7 +251,7 @@ if st.session_state.page == 'dashboard':
     </div>
     """, unsafe_allow_html=True)
 
-    tab1, tab2, tab3 = st.tabs([" Team Profile", " Compare Teams", " Cluster Map"])
+    tab1, tab2, tab3 = st.tabs(["⚽ Team Profile", " 🔄 Compare Teams", "🗺️ Cluster Map"])
 
     with tab1:
         m1, m2, m3, m4 = st.columns(4)
